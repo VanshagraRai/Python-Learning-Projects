@@ -13,6 +13,9 @@ pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load("space-ship.png")
 pygame.display.set_icon(icon)
 
+#Setting the background Image
+bg = pygame.image.load("pexels-hristo-fidanov-1252890.jpg")
+
 # Setting Up the Player
 playerImg = pygame.image.load("spaceship.png")
 playerx = 370
@@ -26,6 +29,14 @@ enemyX = random.randint(0, 800)
 enemyY = random.randint(50, 450)
 enemyX_update = 1
 # enemyY_update = 0
+
+# Setting up the Bullet
+bulletImg = pygame.image.load("bullet.png")
+bulletX = 370
+bulletY = 500
+# bulletX_update = 1
+bulletY_update = 0
+bullet_state = "ready"  # To check the state of bullet whether it is ready or firing
 
 
 # Player function
@@ -42,7 +53,8 @@ def enemy(x, y):
 running = True
 while running:
     # Screen Background Color
-    screen.fill((0, 0, 0))
+    # screen.fill((0, 0, 0))
+    screen.blit(bg, (0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -76,10 +88,10 @@ while running:
         enemyY += 10
 
     # Crashing of both the parties
-    if playerx >= enemyX and playery <= enemyY:
-        enemyX = 360
-        enemyX_update = 0
-        enemyY = 50
+    # if playerx >= enemyX and playery <= enemyY:
+    #     enemyX = 360
+    #     enemyX_update = 0
+    #     enemyY = 50
 
     playerx += playerx_update
     player(playerx, playery)
