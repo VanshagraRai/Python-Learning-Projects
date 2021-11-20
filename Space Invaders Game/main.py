@@ -13,7 +13,7 @@ pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load("space-ship.png")
 pygame.display.set_icon(icon)
 
-#Setting the background Image
+# Setting the background Image
 bg = pygame.image.load("pexels-hristo-fidanov-1252890.jpg")
 
 # Setting Up the Player
@@ -21,7 +21,6 @@ playerImg = pygame.image.load("spaceship.png")
 playerx = 370
 playery = 500
 playerx_update = 0
-
 
 # Setting up the enemy
 enemyImg = pygame.image.load("alien.png")
@@ -32,11 +31,11 @@ enemyX_update = 1
 
 # Setting up the Bullet
 bulletImg = pygame.image.load("bullet.png")
-bulletX = 370
+bulletX = 385
 bulletY = 500
 # bulletX_update = 1
-bulletY_update = 0
-bullet_state = "ready"  # To check the state of bullet whether it is ready or firing
+bulletY_update = -1
+bullet_state = "Ready"  # To check the state of bullet whether it is ready or firing
 
 
 # Player function
@@ -47,6 +46,13 @@ def player(x, y):
 # Enemy function
 def enemy(x, y):
     screen.blit(enemyImg, (x, y))
+
+
+# Bullet Function
+def bullet(x, y):
+    global bullet_state
+    bullet_state = "Firing"
+    screen.blit(bulletImg, (x + 17, y + 2))
 
 
 # Game Loop
@@ -64,17 +70,28 @@ while running:
                 playerx_update = -0.3
             if event.key == pygame.K_RIGHT:
                 playerx_update = 0.3
+            if event.key == pygame.K_SPACE:
+                bullet(bulletX, bulletY)
+                # bullet_state = "Firing"
+                # if bullet_state == "Firing":
+                #
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 playerx_update = 0
             if event.key == pygame.K_RIGHT:
                 playerx_update = 0
+            # if event.key == pygame.K_SPACE:
+            #     bullet_state = "Ready"
+
 
     # Preventing Player from going outside
     if playerx < 0:
         playerx = 0
     if playerx > 735:
         playerx = 735
+
+    playerx += playerx_update
 
     # Moving the Enemy
     enemyX += enemyX_update
@@ -87,15 +104,26 @@ while running:
         enemyX_update = 1
         enemyY += 10
 
-    # Crashing of both the parties
-    # if playerx >= enemyX and playery <= enemyY:
-    #     enemyX = 360
-    #     enemyX_update = 0
-    #     enemyY = 50
 
-    playerx += playerx_update
+
+    # Moving the bullet
+    if bullet_state == "Firing":
+        bulletY += bulletY_update
+    #
+    #
+    # if
+    #
+    #     bullet_state = "Ready"
+    #
+    #     bulletX = playerx
+    # # bulletY = playery
+    if bulletY == 0:
+        bulletX = playerx
+        bulletY = playery
+        bulletY_update = 0
+    bullet(bulletX, bulletY)
     player(playerx, playery)
-
+    
 
     enemy(enemyX, enemyY)
     pygame.display.update()

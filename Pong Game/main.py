@@ -38,8 +38,8 @@ Ball.shape("circle")
 Ball.color("white")
 Ball.penup()
 Ball.goto(0, 0)
-Ball.dx = 0.2
-Ball.dy = -0.2
+Ball.dx = 0.3
+Ball.dy = -0.3
 
 
 # Pen
